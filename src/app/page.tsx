@@ -1,8 +1,5 @@
-"use client";
-import { useRecipesList } from "./hooks/useRecipesList";
+import RecipesList from "./components/RecipesList";
 
 export default function Home() {
-  const { recipesList } = useRecipesList();
-
-  return <div>{recipesList.recipes.vegetarian}</div>;
+  return <RecipesList />;
 }
