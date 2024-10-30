@@ -1,5 +1,11 @@
+import Header from "@/components/header/Header";
 import RecipesList from "./components/RecipesList";
 
 export default function Home() {
-  return <RecipesList />;
+  return (
+    <div className="bg-black">
+      <Header />
+      <RecipesList />;
+    </div>
+  );
 }
