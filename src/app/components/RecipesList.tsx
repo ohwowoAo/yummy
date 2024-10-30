@@ -12,7 +12,7 @@ const RecipesList = () => {
     return <p>오류발생</p>;
   }
   return (
-    <div>
+    <div className="flex gap-5 flex-wrap px-5">
       {recipesList?.map((recipe: any) => (
         <Image
           key={recipe?.id}
