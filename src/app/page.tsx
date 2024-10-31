@@ -4,7 +4,7 @@ import Category from "./components/Category";
 
 export default function Home() {
   return (
-    <div className="bg-black">
+    <div className="bg-white min-h-screen text-slate-500">
       <Header />
       <main>
         <Category />

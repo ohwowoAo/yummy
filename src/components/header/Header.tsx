@@ -7,7 +7,7 @@ import React from "react";
 const Header = () => {
   const router = useRouter();
   return (
-    <div className="border-b border-b-slate-200 flex justify-between	px-5 py-5">
+    <div className="border-b border-b-slate-400 flex justify-between	px-5 py-5">
       {/* <Image
         src="/icons/logo_white.png"
         alt="logo"
