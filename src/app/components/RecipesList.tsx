@@ -27,13 +27,12 @@ const RecipesList = () => {
     <div className="gap-5 flex-wrap px-5 grid grid-cols-4 ">
       {recipesList?.map((recipe: any) => (
         <div key={recipe?.id}>
-          <div className="relative">
+          <div className="relative w-full pb-[66.5%]">
             <Image
               src={recipe?.image}
               alt=""
-              width={556} // 실제 너비
-              height={370}
-              className="w-full h-full object-cover rounded-lg"
+              fill
+              className="object-cover rounded-lg"
             />
             <p className="flex gap-1 absolute right-2	bottom-3 bg-white px-1 rounded text-xs items-center">
               <span className="text-[#e66c69] flex 	items-center">
@@ -50,11 +49,11 @@ const RecipesList = () => {
               {recipe?.title}
             </p>
             <div className="text-slate-600 text-sm flex gap-1">
-              <p>{recipe?.vegetarian ? "#채식주의자" : null}</p>
-              <p>{recipe?.vegan ? "#비건" : null}</p>
-              <p>{recipe?.veryHealthy ? "#건강식" : null}</p>
-              <p>{recipe?.veryPopular ? "#Best" : null}</p>
-              <p>{recipe?.occasions}</p>
+              {recipe?.vegetarian && <p>#채식주의자</p>}
+              {recipe?.vegan && <p>#비건</p>}
+              {recipe?.veryHealthy && <p>#건강식</p>}
+              {recipe?.veryPopular && <p>#Best</p>}
+              {recipe?.occasions.length > 1 && <p># {recipe?.occasions}</p>}
             </div>
           </div>
         </div>

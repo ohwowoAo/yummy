@@ -10,6 +10,8 @@ export const useRecipesList = () => {
 
   // 기본값으로 빈 배열 선언
   const recipesList = useMemo(() => {
+    let list = [];
+
     // 로컬 스토리지에서 데이터가 있는 경우
     if (savedRecipes) {
       try {
@@ -18,15 +20,16 @@ export const useRecipesList = () => {
         console.error("Error parsing savedRecipes:", error); // 파싱 오류 처리
         return []; // 기본값 반환
       }
-    }
-
-    // res가 유효한 경우
-    if (res) {
+    } else if (res) {
+      // res가 유효한 경우
+      list = res.recipes;
       localStorage.setItem("recipesList", JSON.stringify(res.recipes)); // 로컬 스토리지에 저장
-      return res.recipes; // API로부터 가져온 데이터를 반환
     }
 
-    return []; // 그 외의 경우 빈 배열 반환
+    // 이미지가 빈 문자열이 아닌 항목만 필터링하여 반환
+    return list.filter(
+      (recipe: { image: string }) => recipe.image && recipe.image.trim() !== ""
+    );
   }, [res, savedRecipes]);
 
   // 로딩 중이거나 오류가 발생한 경우 초기값으로 빈 배열 반환
