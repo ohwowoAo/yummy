@@ -1,23 +1,43 @@
 "use client";
 
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { useRecipesList } from "../hooks/useRecipesList";
 import Image from "next/image";
 import { Heart } from "lucide-react";
+import { useSearchParams } from "next/navigation";
+import { useSearchResultList } from "../hooks/useSearchResultList";
 
 const RecipesList = () => {
-  const { recipesList, isLoading, isError } = useRecipesList();
-  console.log(recipesList);
+  const searchParams = useSearchParams();
+  const category = searchParams.get("category");
 
-  // 로딩 중일 때
-  if (isLoading) {
-    return <p>로딩 중...</p>;
-  }
+  const [recipesList, setRecipesList] = useState([]);
+  const {
+    data: randomRecipes,
+    isLoading: loadingSearch,
+    isError: errorSearch,
+  } = useRecipesList();
+  // console.log(recipesList);
+  const {
+    data: searchResults,
+    isLoading: loadingRandom,
+    isError: errorRandom,
+  } = useSearchResultList(category || "");
 
-  // 오류가 발생한 경우
-  if (isError) {
-    console.log(isError);
-  }
+  useEffect(() => {
+    if (category) {
+      if (searchResults) {
+        setRecipesList(searchResults);
+      }
+    } else {
+      if (randomRecipes) {
+        setRecipesList(randomRecipes);
+      }
+    }
+  }, [category, searchResults, randomRecipes]);
+
+  if (loadingSearch || loadingRandom) return <p>Loading...</p>;
+  if (errorSearch || errorRandom) return <p>Error occurred!</p>;
 
   // recipesList가 배열이 아닐 경우 처리
   if (!Array.isArray(recipesList)) {
@@ -53,7 +73,12 @@ const RecipesList = () => {
               {recipe?.vegan && <p>#비건</p>}
               {recipe?.veryHealthy && <p>#건강식</p>}
               {recipe?.veryPopular && <p>#Best</p>}
-              {recipe?.occasions.length > 1 && <p># {recipe?.occasions}</p>}
+              {recipesList &&
+                recipe &&
+                recipe.occasions &&
+                recipe.occasions.length > 1 && (
+                  <p># {recipe.occasions.join(", ")}</p>
+                )}
             </div>
           </div>
         </div>

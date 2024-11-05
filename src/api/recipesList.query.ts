@@ -7,10 +7,11 @@ const fetchRandomRecipes = async () => {
 
   const res = await fetch(`${BASE_URL}?apiKey=${API_KEY}&number=20`);
   if (!res.ok) {
-    throw new Error("Failed to fetch random recipes");
+    throw new Error("오류발생");
   }
   return res.json(); // JSON 응답 반환
 };
+
 export const useRecipesListQuery = () => {
   return useQuery({
     queryKey: ["randomRecipes"], // 쿼리 키

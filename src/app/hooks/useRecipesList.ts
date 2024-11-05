@@ -9,7 +9,7 @@ export const useRecipesList = () => {
   const savedRecipes = localStorage.getItem("recipesList");
 
   // 기본값으로 빈 배열 선언
-  const recipesList = useMemo(() => {
+  const data = useMemo(() => {
     let list = [];
 
     // 로컬 스토리지에서 데이터가 있는 경우
@@ -33,5 +33,5 @@ export const useRecipesList = () => {
   }, [res, savedRecipes]);
 
   // 로딩 중이거나 오류가 발생한 경우 초기값으로 빈 배열 반환
-  return { recipesList, isLoading, isError };
+  return { data, isLoading, isError };
 };
