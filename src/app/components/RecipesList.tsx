@@ -1,43 +1,25 @@
 "use client";
 
-import React, { useEffect, useState } from "react";
 import { useRecipesList } from "../hooks/useRecipesList";
 import Image from "next/image";
 import { Heart } from "lucide-react";
 import { useSearchParams } from "next/navigation";
-import { useSearchResultList } from "../hooks/useSearchResultList";
 
 const RecipesList = () => {
   const searchParams = useSearchParams();
   const category = searchParams.get("category");
 
-  const [recipesList, setRecipesList] = useState([]);
   const {
-    data: randomRecipes,
-    isLoading: loadingSearch,
-    isError: errorSearch,
-  } = useRecipesList();
-  // console.log(recipesList);
-  const {
-    data: searchResults,
-    isLoading: loadingRandom,
-    isError: errorRandom,
-  } = useSearchResultList(category || "");
+    data: recipesList,
+    isLoading,
+    isError,
+    loadMoreRef,
+  } = useRecipesList(category || "");
 
-  useEffect(() => {
-    if (category) {
-      if (searchResults) {
-        setRecipesList(searchResults);
-      }
-    } else {
-      if (randomRecipes) {
-        setRecipesList(randomRecipes);
-      }
-    }
-  }, [category, searchResults, randomRecipes]);
-
-  if (loadingSearch || loadingRandom) return <p>Loading...</p>;
-  if (errorSearch || errorRandom) return <p>Error occurred!</p>;
+  console.log("recipesList", recipesList);
+  //로딩 || 오류
+  if (isLoading && !recipesList) return <p>Loading...</p>;
+  if (isError && !recipesList) return <p>Error occurred!</p>;
 
   // recipesList가 배열이 아닐 경우 처리
   if (!Array.isArray(recipesList)) {
@@ -45,8 +27,8 @@ const RecipesList = () => {
   }
   return (
     <div className="gap-5 flex-wrap px-5 grid grid-cols-4 ">
-      {recipesList?.map((recipe: any) => (
-        <div key={recipe?.id}>
+      {recipesList?.map((recipe: any, index) => (
+        <div key={`${recipe?.id}-${index}`}>
           <div className="relative w-full pb-[66.5%]">
             <Image
               src={recipe?.image}
@@ -83,6 +65,9 @@ const RecipesList = () => {
           </div>
         </div>
       ))}
+      <div ref={loadMoreRef} className="loading-more h-4">
+        {isLoading && <p>Loading more...</p>}
+      </div>
     </div>
   );
 };

@@ -35,3 +35,8 @@ yarn-error.log*
 # typescript
 *.tsbuildinfo
 next-env.d.ts
+
+# 특정 파일 무시
+/src/api/recipesList.query copy.ts
+/src/app/components/RecipesList copy.tsx
+/src/app/hooks/useRecipesList copy.ts
