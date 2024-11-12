@@ -1,6 +1,6 @@
 import Header from "@/components/header/Header";
-import RecipesList from "./components/RecipesList";
 import Category from "./components/Category";
+import RecipesList from "./components/RecipesList";
 
 export default function Home() {
   return (

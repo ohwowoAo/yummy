@@ -1,16 +1,28 @@
-// import { useSearchResultListQuery } from "@/api/SearchResultList.query";
-// import { useMemo } from "react";
+import { useSearchResultListQuery } from "@/api/searchResultList.query";
+import { useMemo } from "react";
 
-// export const useSearchResultList = (value: string) => {
-//   const { data: res, isLoading, isError } = useSearchResultListQuery(value);
+export const useSearchResultList = (value: string) => {
+  const {
+    data: res,
+    isLoading,
+    status,
+    error,
+    fetchNextPage,
+    hasNextPage,
+    isFetchingNextPage,
+  } = useSearchResultListQuery(value);
+  const data = useMemo(() => {
+    if (!res) return [];
+    return res;
+  }, [res]);
 
-//   const data = useMemo(() => {
-//     if (!res) return [];
-//     const results = res.results;
-//     return results.filter(
-//       (recipe: { image: string }) => recipe.image && recipe.image.trim() !== ""
-//     );
-//   }, [res]);
-
-//   return { data, isLoading, isError };
-// };
+  return {
+    data,
+    isLoading,
+    status,
+    error,
+    fetchNextPage,
+    hasNextPage,
+    isFetchingNextPage,
+  };
+};
