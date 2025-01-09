@@ -11,6 +11,7 @@ export const useSearchResultList = (value: string) => {
     hasNextPage,
     isFetchingNextPage,
   } = useSearchResultListQuery(value);
+
   const data = useMemo(() => {
     if (!res) return [];
     return res;

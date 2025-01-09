@@ -3,11 +3,12 @@
 import React, { useEffect, useState } from "react";
 import { useInView } from "react-intersection-observer";
 import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
-import { useSearchResultList } from "../hooks/useSearchResultList";
 import { useSearchParams } from "next/navigation";
 import Image from "next/image";
 import { Heart } from "lucide-react";
-import { useRecipesList } from "../hooks/useRecipesList";
+import Link from "next/link";
+import { useRecipesList } from "../hook/useRecipesList";
+import { useSearchResultList } from "../hook/useSearchResultList";
 
 const RecipesList = () => {
   const searchParams = useSearchParams();
@@ -65,42 +66,44 @@ const RecipesList = () => {
       ) : (
         <>
           <div className="w-[100vh] min-h-[100vh] gap-5 flex-wrap px-5 grid grid-cols-4">
-            {recipesList.map((recipe: any, index) => (
-              <div key={`${recipe.title}-${index}`}>
-                <div className="relative w-full pb-[66.5%]">
-                  <Image
-                    src={recipe?.image}
-                    alt=""
-                    fill
-                    className="object-cover rounded-lg"
-                  />
-                  <p className="flex gap-1 absolute right-2	bottom-3 bg-white px-1 rounded text-xs items-center">
-                    <span className="text-[#e66c69] flex items-center">
-                      <Heart fill="#e66c69" strokeWidth={0} className="w-3" />
-                      like
-                    </span>
-                    <span className="text-slate-950 font-semibold">
-                      {recipe?.aggregateLikes}
-                    </span>
-                  </p>
-                </div>
-                <div>
-                  <p className="text-slate-950 line-clamp-2 h-[50px]">
-                    {recipe?.title}
-                  </p>
-                  <div className="text-slate-600 text-sm flex gap-1">
-                    {recipe?.vegetarian && <p>#채식주의자</p>}
-                    {recipe?.vegan && <p>#비건</p>}
-                    {recipe?.veryHealthy && <p>#건강식</p>}
-                    {recipe?.veryPopular && <p>#Best</p>}
-                    {recipesList &&
-                      recipe &&
-                      recipe.occasions &&
-                      recipe.occasions.length > 1 && (
-                        <p># {recipe.occasions.join(", ")}</p>
-                      )}
+            {recipesList.map((recipe: any) => (
+              <div key={`${recipe.title}-${recipe.id}`}>
+                <Link href={`/detail/${recipe.id}`}>
+                  <div className="relative w-full pb-[66.5%]">
+                    <Image
+                      src={recipe?.image}
+                      alt=""
+                      fill
+                      className="object-cover rounded-lg"
+                    />
+                    <p className="flex gap-1 absolute right-2	bottom-3 bg-white px-1 rounded text-xs items-center">
+                      <span className="text-[#e66c69] flex items-center">
+                        <Heart fill="#e66c69" strokeWidth={0} className="w-3" />
+                        like
+                      </span>
+                      <span className="text-slate-950 font-semibold">
+                        {recipe?.aggregateLikes}
+                      </span>
+                    </p>
                   </div>
-                </div>
+                  <div>
+                    <p className="text-slate-950 line-clamp-2 h-[50px]">
+                      {recipe?.title}
+                    </p>
+                    <div className="text-slate-600 text-sm flex gap-1">
+                      {recipe?.vegetarian && <p>#채식주의자</p>}
+                      {recipe?.vegan && <p>#비건</p>}
+                      {recipe?.veryHealthy && <p>#건강식</p>}
+                      {recipe?.veryPopular && <p>#Best</p>}
+                      {recipesList &&
+                        recipe &&
+                        recipe.occasions &&
+                        recipe.occasions.length > 1 && (
+                          <p># {recipe.occasions.join(", ")}</p>
+                        )}
+                    </div>
+                  </div>
+                </Link>
               </div>
             ))}
           </div>
